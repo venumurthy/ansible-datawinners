@@ -1,0 +1,30 @@
+---
+
+- name: Create CouchDB group
+  group: name=couchdb state=present
+
+- name: Create CouchDB user
+  user: name=couchdb createhome=no home=/opt/apache-couchdb system=yes group={{user}} shell=/bin/sh state=present
+
+- name: Install CouchDB apt packages
+  apt: name={{item}} state=present
+  with_items:
+    - wget
+    - libicu-dev
+    - libmozjs185-dev
+    - libcurl4-gnutls-dev
+    - libtool
+    - erlang-base-hipe
+    - erlang-eunit
+    - erlang-nox
+    - erlang-xmerl
+    - erlang-inets
+
+- name: Check if CouchDB package has already been downloaded
+  stat: path=/opt/{{couchdb_package_name}}
+  register: couchDB_package
+
+- name: Download CouchDB package
+  get_url: url="{{couchdb_deb_url}}" dest=/opt/
+  when: not couchDB_package.stat.exists
+
