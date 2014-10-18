@@ -2,6 +2,6 @@
 - name: Setup dev box
   hosts: 127.0.0.1
   roles:
-    - web-server
-    - db-server
-    - search-server
+    - {role: web-server, user: $sudo_user}
+#    - db-server
+#    - search-server

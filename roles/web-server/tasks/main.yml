@@ -1,1 +1,40 @@
 ---
+
+- name: Setup environment variables
+  copy: dest=/etc/environment content="PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games\nPYTHONPATH=/home/mangrover/workspace/datawinners/\n"
+
+- name: Create group
+  group: name=$user state=present
+
+- name: Create user
+  user: name=$user createhome=yes group=$user shell=/bin/bash state=present
+
+- name: Create DataWinners log folder
+  file: path=/var/log/datawinners state=directory owner:$user group:$user
+
+- name: Install python dependencies
+  apt: name:{{item}} state=latest
+  with_items:
+    - python-pip
+    - python-dev
+    - build-essential
+    - python-gdal
+
+- name: install and update pip modules
+  pip: name:{{item}} state=latest
+  with_items:
+    - pip
+    - virtualenv
+
+- name: Create virtual environment folder
+  file: path=/home/$user/virtual_env state=directory owner:$user group:$user
+
+- name: Create virtual environment
+  file: virtualenv /home/$user/virtual_env/datawinners state=directory owner:$user group:$user
+
+- name: install pip into virtual environment
+  pip: name:pip virtualenv=/home/$user/virtual_env/datawinners state=latest
+
+
+
+
