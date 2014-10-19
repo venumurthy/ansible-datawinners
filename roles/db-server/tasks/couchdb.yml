@@ -28,3 +28,16 @@
   get_url: url="{{couchdb_deb_url}}" dest=/opt/
   when: not couchDB_package.stat.exists
 
+- name: Install CouchDB
+  apt: deb=/opt/{{couchdb_package_name}} state=installed
+
+- name: Create CouchDB directories
+  file: path={{item}} state=directory
+  with_items:
+    - /opt/apache-couchdb/var/log/couchdb
+    - /opt/apache-couchdb/var/run/couchdb
+    - /opt/apache-couchdb/var/lib
+
+- name: Set owner and group for CouchDB folders
+  file: path=/opt/apache-couchdb owner=couchdb group=couchdb state=directory
+
