@@ -6,6 +6,12 @@
 - name: Create CouchDB user
   user: name=couchdb createhome=no home=/opt/apache-couchdb system=yes group={{user}} shell=/bin/sh state=present
 
+- name: Set file limits for couchdb user
+  lineinfile: dest=/etc/security/limits.conf line="{{item}}" regexp="{{item}}" insertafter=EOF backup=yes
+  with_items:
+    - 'couchdb soft nofile 65000'
+    - 'couchdb hard nofile 65000'
+
 - name: Install CouchDB apt packages
   apt: name={{item}} state=present
   with_items:
