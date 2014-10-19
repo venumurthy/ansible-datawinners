@@ -1,0 +1,23 @@
+[couchdb]
+max_dbs_open=1000
+os_process_timeout=240000
+database_dir={{database_directory}}
+view_index_dir={{database_directory}}
+
+
+[httpd]
+socket_options = [{nodelay, true}]
+WWW-Authenticate = Basic realm="administrator"
+bind_address="127.0.0.1"
+port={{port}}
+
+[couch_httpd_auth]
+require_valid_user=true
+timeout=43200
+
+[log]
+file=/opt/apache-couchdb/var/log/{{couchdb_instance_name}}.log
+
+[admins]
+admin=admin
+

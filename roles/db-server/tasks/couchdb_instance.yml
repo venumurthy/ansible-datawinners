@@ -1,0 +1,18 @@
+---
+
+- name: Create init.d file for {{couchdb_instance_name}}
+  template: src=couchdb/init.d/couchdb_template.j2 dest=/etc/init.d/{{couchdb_instance_name}} owner=root group=root mode=0555
+
+- name: Create default file for {{couchdb_instance_name}}
+  template: src=couchdb/default/couchdb_template.j2 dest=/opt/apache-couchdb/etc/default/{{couchdb_instance_name}} owner=couchdb group=couchdb mode=0744
+
+- name: Create database directory for {{couchdb_instance_name}}
+  file: path={{database_directory}} state=directory owner=couchdb group=couchdb mode=0755
+
+- name: Create configuration file for {{couchdb_instance_name}}
+  template: src=couchdb/ini/local_ini_template.j2 dest=/opt/apache-couchdb/etc/couchdb/{{couchdb_instance_name}}.ini owner=couchdb group=couchdb mode=0744
+
+- name: Start {{couchdb_instance_name}} service
+  service: name={{couchdb_instance_name}} state=started
+
+

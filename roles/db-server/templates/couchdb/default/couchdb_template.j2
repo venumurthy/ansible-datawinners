@@ -1,0 +1,10 @@
+# Sourced by init script for configuration.
+
+COUCHDB_USER=couchdb
+COUCHDB_STDOUT_FILE=/dev/null
+COUCHDB_STDERR_FILE=/dev/null
+COUCHDB_RESPAWN_TIMEOUT=5
+COUCHDB_OPTIONS="-a /opt/apache-couchdb/etc/couchdb/{{couchdb_instance_name}}.ini -p /opt/apache-couchdb/var/run/couchdb/{{couchdb_instance_name}}.pid"
+
+export ERL_MAX_PORTS=8192
+               
