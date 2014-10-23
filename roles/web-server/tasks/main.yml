@@ -38,6 +38,26 @@
 - name: Install uwsgi
   include: uwsgi.yml
 
+- name: Create DataWinners workspace
+  file: path=/home/{{user}}/workspace state=directory owner={{user}} group={{user}}
+
+- name: Checkout DataWinners git repostiory
+  git: repo=https://github.com/mangroveorg/datawinners.git dest=/home/{{user}}/workspace
+
+- name: Checkout Shape files git repostiory
+  git: repo=https://github.com/mangroveorg/shape_files.git dest=/home/{{user}}/workspace
+
+- name: Checkout custom reports git repostiory
+  git: repo=https://github.com/mangroveorg/custom_reports.git dest=/home/{{user}}/workspace
+
+- name: Set DataWinners workspace ownership
+  file: path="/home/{{user}}/workspace" state=directory owner={{user}} group={{user}} recurse=yes
+
+
+
+
+
+
 
 
 
