@@ -9,9 +9,6 @@
 - name: Create user
   user: name={{user}} createhome=yes group={{user}} shell=/bin/bash state=present
 
-- name: Create DataWinners log folder
-  file: path="/var/log/datawinners" state=directory owner={{user}} group={{user}}
-
 - name: Install python dependencies
   apt: name={{item}} state=latest
   with_items:
@@ -32,8 +29,15 @@
 - name: Create virtual environment
   file: path=/home/{{user}}/virtual_env/datawinners state=directory owner={{user}} group={{user}}
 
-- name: install pip into virtual environment
+- name: Install pip into virtual environment
   pip: name=pip virtualenv=/home/{{user}}/virtual_env/datawinners state=latest
+
+- name: Create DataWinners log folder
+  file: path="/var/log/datawinners" state=directory owner={{user}} group={{user}}
+
+- name: Install uwsgi
+  include: uwsgi.yml
+
 
 
 
