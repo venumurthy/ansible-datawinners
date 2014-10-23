@@ -9,6 +9,12 @@
 - name: Create user
   user: name={{user}} createhome=yes group={{user}} shell=/bin/bash state=present
 
+- name: Set file limits for user {{user}}
+  lineinfile: dest=/etc/security/limits.conf line="{{item}}" regexp="{{item}}" insertafter=EOF backup=yes
+  with_items:
+    - "{{user}} soft nofile 65000"
+    - "{{user}} hard nofile 65000"
+
 - name: Install python dependencies
   apt: name={{item}} state=latest
   with_items:
@@ -52,6 +58,17 @@
 
 - name: Set DataWinners workspace ownership
   file: path="/home/{{user}}/workspace" state=directory owner={{user}} group={{user}} recurse=yes
+
+- name: Install apt dependencies
+  apt: name={{item}} state=latest
+  with_items:
+    - libxslt1-dev
+    - libxml2-dev
+
+- name: Install memcached
+  include: memcached.yml
+
+
 
 
 
