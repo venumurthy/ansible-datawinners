@@ -42,16 +42,16 @@
   file: path="/var/log/datawinners" state=directory owner={{user}} group={{user}}
 
 - name: Create DataWinners workspace
-  file: path=/home/{{user}}/workspace state=directory owner={{user}} group={{user}}
+  file: path=/home/{{user}}/workspace state=directory
 
 - name: Checkout DataWinners git repostiory
-  git: repo=https://github.com/mangroveorg/datawinners.git dest=/home/{{user}}/workspace
+  git: repo=https://github.com/mangroveorg/datawinners.git dest=/home/{{user}}/workspace/datawinners
 
 - name: Checkout Shape files git repostiory
-  git: repo=https://github.com/mangroveorg/shape_files.git dest=/home/{{user}}/workspace
+  git: repo=https://github.com/mangroveorg/shape_files.git dest=/home/{{user}}/workspace/shape_files
 
 - name: Checkout custom reports git repostiory
-  git: repo=https://github.com/mangroveorg/custom_reports.git dest=/home/{{user}}/workspace
+  git: repo=https://github.com/mangroveorg/custom_reports.git dest=/home/{{user}}/workspace/custom_reports
 
 - name: Set DataWinners workspace ownership
   file: path="/home/{{user}}/workspace" state=directory owner={{user}} group={{user}} recurse=yes
