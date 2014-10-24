@@ -41,9 +41,6 @@
 - name: Create DataWinners log folder
   file: path="/var/log/datawinners" state=directory owner={{user}} group={{user}}
 
-- name: Install uwsgi
-  include: uwsgi.yml
-
 - name: Create DataWinners workspace
   file: path=/home/{{user}}/workspace state=directory owner={{user}} group={{user}}
 
@@ -58,6 +55,12 @@
 
 - name: Set DataWinners workspace ownership
   file: path="/home/{{user}}/workspace" state=directory owner={{user}} group={{user}} recurse=yes
+
+- name: Install DataWinners pip requirements
+  pip: requirements=/home/{{user}}/workspace/datawinners/datawinners/requirements.pip virtualenv=/home/{{user}}/virtual_env/datawinners
+
+- name: Install uwsgi
+  include: uwsgi.yml
 
 - name: Install apt dependencies
   apt: name={{item}} state=latest
