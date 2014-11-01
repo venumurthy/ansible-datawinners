@@ -1,10 +1,10 @@
 ---
 
 - name: Create init.d file for uwsgi
-  template: src=uwsgi/init.d/uwsgi.j2 dest=/etc/init.d/uwsgi owner=root group=root mode=0755
+  template: src=etc/init.d/uwsgi.j2 dest=/etc/init.d/uwsgi owner=root group=root mode=0755
 
 - name: Create ini file for uwsgi
-  template: src=uwsgi/default/uwsgi.ini.j2 dest=/etc/default/uwsgi.ini owner=root group=root mode=0644
+  template: src=etc/default/uwsgi.ini.j2 dest=/etc/default/uwsgi.ini owner=root group=root mode=0644
 
 - name: Create uwsgi log folder
   file: path="/var/log/uwsgi" state=directory owner={{user}} group={{user}}
