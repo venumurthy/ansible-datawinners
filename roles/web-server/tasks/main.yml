@@ -79,3 +79,6 @@
 
 - name: Install rabbitmq
   include: rabbitmq.yml
+
+- name: Install nginx
+  include: nginx.yml
