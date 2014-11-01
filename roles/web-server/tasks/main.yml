@@ -71,6 +71,11 @@
 - name: Install memcached
   include: memcached.yml
 
+- name: Set pam.d common-session
+  template: src=etc/pam.d/common-session.j2 dest=/etc/pam.d/common-session
+
+- name: Set pam.d common-session-noninteractive
+  template: src=etc/pam.d/common-session.j2 dest=/etc/pam.d/common-session-noninteractive
 
 
 
