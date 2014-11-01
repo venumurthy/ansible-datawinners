@@ -82,3 +82,6 @@
 
 - name: Install nginx
   include: nginx.yml
+
+- name: Install celery
+  include: celery.yml
