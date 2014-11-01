@@ -13,6 +13,6 @@
   template: src=couchdb/ini/local_ini_template.j2 dest=/opt/apache-couchdb/etc/couchdb/{{couchdb_instance_name}}.ini owner=couchdb group=couchdb mode=0744
 
 - name: Start {{couchdb_instance_name}} service
-  service: name={{couchdb_instance_name}} state=started
+  service: name={{couchdb_instance_name}} state=started enabled=yes
 
 
