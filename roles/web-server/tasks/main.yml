@@ -77,6 +77,14 @@
 - name: Set pam.d common-session-noninteractive
   template: src=etc/pam.d/common-session.j2 dest=/etc/pam.d/common-session-noninteractive
 
+
+- name: Create google content folder
+  file: path=/home/{{user}}/google state=directory owner={{user}} group={{user}}
+
+- name: Copy google content for DataWinners
+  copy: content=google3756418eb1f4bb6c.html dest="/home/{{user}}/google/google3756418eb1f4bb6c.html" owner=nginx group=nginx mode=0666
+
+
 - name: Install rabbitmq
   include: rabbitmq.yml
 
