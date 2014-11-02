@@ -4,7 +4,7 @@
   get_url: url=https://github.com/mangroveorg/dwpkg/raw/master/memcached/libevent-2.0.21-stable.tar.gz dest=/var/tmp
 
 - name: Unarchive libevent
-- unarchive: src=/var/tmp/libevent-2.0.21-stable.tar.gz dest=/var/tmp/
+  unarchive: src=/var/tmp/libevent-2.0.21-stable.tar.gz dest=/var/tmp/
 
 - name: Install libevent
   shell: ./configure && make && sudo make install chdir=/var/tmp/libevent-2.0.21-stable
@@ -14,7 +14,7 @@
   get_url: url=http://www.memcached.org/files/memcached-1.4.17.tar.gz dest=/var/tmp
 
 - name: Unarchive memcached
-- unarchive: src=/var/tmp/memcached-1.4.17.tar.gz dest=/var/tmp/
+  unarchive: src=/var/tmp/memcached-1.4.17.tar.gz dest=/var/tmp/
 
 - name: Install memcached
   shell: ./configure && make && sudo make install chdir=/var/tmp/memcached-1.4.17
@@ -28,7 +28,7 @@
   get_url: url=https://launchpad.net/libmemcached/1.0/1.0.17/+download/libmemcached-1.0.17.tar.gz dest=/var/tmp
 
 - name: Unarchive libmemcached
-- unarchive: src=/var/tmp/libmemcached-1.0.17.tar.gz dest=/var/tmp/
+  unarchive: src=/var/tmp/libmemcached-1.0.17.tar.gz dest=/var/tmp/
 
 - name: Install libmemcached
   shell: ./configure --prefix=/usr && make && sudo make install chdir=/var/tmp/libmemcached-1.0.17

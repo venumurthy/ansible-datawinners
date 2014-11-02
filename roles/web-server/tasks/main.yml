@@ -93,3 +93,9 @@
 
 - name: Install celery
   include: celery.yml
+
+- name: Install tomcat
+  include: tomcat.yml
+
+- name: Install birt viewer
+  include: birt_viewer.yml
