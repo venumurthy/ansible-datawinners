@@ -19,7 +19,7 @@
   get_url: url=http://nginx.org/download/nginx-1.2.9.tar.gz dest=/var/tmp
 
 - name: Unarchive nginx
-- unarchive: src=/var/tmp/memcached-1.4.17.tar.gz dest=/var/tmp/
+  unarchive: src=/var/tmp/memcached-1.4.17.tar.gz dest=/var/tmp/
 
 - name: Install nginx
   shell: ./configure --prefix=/opt/nginx-1.2.9 --user=nginx --group=nginx --sbin-path=/usr/local/sbin --conf-path=/opt/nginx-1.2.9/conf/nginx.conf --pid-path=/opt/nginx-1.2.9/logs/nginx.pid --with-http_gzip_static_module --with-http_ssl_module && make && make install chdir=/var/tmp/nginx-1.2.9
