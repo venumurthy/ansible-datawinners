@@ -1,0 +1,4 @@
+---
+
+elasticsearch_package_name: elasticsearch-0.90.7.deb
+elasticsearch_deb_url: "https://download.elasticsearch.org/elasticsearch/elasticsearch/{{elasticsearch_package_name}}"

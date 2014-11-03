@@ -1,0 +1,31 @@
+- name: Create ElasticSearch group
+  group: name=elasticsearch state=present
+
+- name: Create ElasticSearch user
+  user: name=elasticsearch createhome=no home=/var/lib/elasticsearch system=yes group={{user}} shell=/bin/sh state=present
+
+- name: Check if elasticsearch package has already been downloaded
+  stat: path=/opt/{{elasticsearch_package_name}}
+  register: elasticsearch_package
+
+- name: Download ElasticSearch package
+  get_url: url="{{elasticsearch_deb_url}}" dest=/var/tmp/
+  when: not elasticsearch_package.stat.exists
+
+- name: Install elasticsearch
+  apt: deb=/var/tmp/{{elasticsearch_package_name}} state=installed
+
+- name: Create init.d file for elasticsearch
+  template: src=search-server/init.d/elasticsearch.j2 dest=/etc/init.d/elasticsearch owner=root group=root mode=0555
+
+- name: Create settings file for elasticsearch
+  template: src=search-server/default/elasticsearch.yml.j2 dest=/etc/elasticsearch/elasticsearch.yml owner=elastisearch group=ealsticsearch mode=0744
+
+- name: Start ealsticsearch service
+  service: name=elasticsearch state=started
+
+- name: Set file limits for elasticearch user
+  lineinfile: dest=/etc/security/limits.conf line="{{item}}" regexp="{{item}}" insertafter=EOF backup=yes
+  with_items:
+    - 'ealsticsearch soft nofile 65000'
+    - 'elasticsearch hard nofile 65000'

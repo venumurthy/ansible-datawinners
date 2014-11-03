@@ -4,4 +4,4 @@
   roles:
     - { role: web-server, user: "{{ansible_ssh_user}}", domain_name: localhost }
     - { role: db-server, postgres_user_name: "{{ansible_ssh_user}}"}
-#    - search-server
+    - search-server
