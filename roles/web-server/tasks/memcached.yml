@@ -1,1 +1,48 @@
 ---
+
+- name: Download libevent
+  get_url: url=https://github.com/mangroveorg/dwpkg/raw/master/memcached/libevent-2.0.21-stable.tar.gz dest=/var/tmp
+
+- name: Unarchive libevent
+  unarchive: src=/var/tmp/libevent-2.0.21-stable.tar.gz dest=/var/tmp/
+
+- name: Install libevent
+  shell: ./configure && make && sudo make install chdir=/var/tmp/libevent-2.0.21-stable
+
+
+- name: Download memcached
+  get_url: url=http://www.memcached.org/files/memcached-1.4.17.tar.gz dest=/var/tmp
+
+- name: Unarchive memcached
+  unarchive: src=/var/tmp/memcached-1.4.17.tar.gz dest=/var/tmp/
+
+- name: Install memcached
+  shell: ./configure && make && sudo make install chdir=/var/tmp/memcached-1.4.17
+
+
+- name: Install libcloog-ppl0 package
+  apt: name=libcloog-ppl0 state=present
+
+
+- name: Download libmemcached
+  get_url: url=https://launchpad.net/libmemcached/1.0/1.0.17/+download/libmemcached-1.0.17.tar.gz dest=/var/tmp
+
+- name: Unarchive libmemcached
+  unarchive: src=/var/tmp/libmemcached-1.0.17.tar.gz dest=/var/tmp/
+
+- name: Install libmemcached
+  shell: ./configure --prefix=/usr && make && sudo make install chdir=/var/tmp/libmemcached-1.0.17
+
+
+- name: Create init.d file for memcached
+  template: src=etc/init.d/memcached.j2 dest=/etc/init.d/memcached owner={{user}} group={{user}} mode=0755
+
+- name: Create default file for start-memcached
+  template: src=memcached/start-memcached.j2 dest=/etc/default/start-memcached owner={{user}} group={{user}} mode=0755
+
+- name: Create default file for memcached
+  template: src=etc/default/memcached.j2 dest=/etc/default/memcached owner={{user}} group={{user}} mode=0755
+
+
+- name: Start memcached service
+  service: name=memcached state=started enabled=yes

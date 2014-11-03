@@ -1,0 +1,14 @@
+---
+
+- name: Download birt viewer
+  get_url: url=http://dwapppkg.github.io/birt-viewer/birt-viewer.gz dest=/var/tmp
+
+- name: Unarchive birt viewer
+  unarchive: src=/var/tmp/birt-viewer.gz dest=/home/{{user}}/tomcat7/apache-tomcat-7.0.42/webapps/
+
+- name: Link custom reports
+  shell: ln -sf /home/{{user}}/workspace/custom_reports/crs /home/{{user}}/tomcat7/apache-tomcat-7.0.42/webapps/birt-viewer/crs chdir=/home/{{user}}/tomcat7/apache-tomcat-7.0.42/webapps/birt-viewer
+
+- name: Copy birt-viwer app context file
+  template: src=birt-viewer/context.xml.j2 dest=/home/{{user}}/tomcat7/apache-tomcat-7.0.42/webapps/birt-viewer/META-INF/context.xml owner={{user}} group={{user}} mode=0744
+

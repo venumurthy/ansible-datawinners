@@ -1,0 +1,10 @@
+---
+
+- name: Create default file for celery
+  template: src=etc/default/celeryd.j2 dest=/etc/default/celeryd owner={{user}} group={{user}} mode=0755
+
+- name: Create init.d file for celery
+  template: src=etc/init.d/celeryd.j2 dest=/etc/init.d/celeryd owner={{user}} group={{user}} mode=0755
+
+- name: Start celery service
+  service: name=celeryd state=started enabled=yes

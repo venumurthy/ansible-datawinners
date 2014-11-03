@@ -1,0 +1,19 @@
+---
+
+- name: Create tomcat directory
+  file: path=/home/{{user}}/tomcat7 state=directory owner={{user}} group={{user}}
+
+- name: Download tomcat
+  get_url: url=http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.42/bin/apache-tomcat-7.0.42.tar.gz dest=/home/{{user}}/tomcat7
+
+- name: Set tomcat tar file owner and group
+  file: path=/home/{{user}}/tomcat7/apache-tomcat-7.0.42.tar.gz owner={{user}} group={{user}}
+
+- name: Unarchive tomcat
+- unarchive: src=/home/{{user}}/tomcat7/apache-tomcat-7.0.42.tar.gz dest=/home/{{user}}/tomcat7
+
+- name: Create init.d file for tomcat
+  template: src=etc/init.d/tomcat.j2 dest=/etc/init.d/tomcat owner={{user}} group={{user}} mode=0755
+
+- name: Start tomcat service
+  service: name=tomcat state=started enabled=yes

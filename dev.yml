@@ -2,7 +2,6 @@
 - name: Setup dev box
   hosts: 127.0.0.1
   roles:
-    - { role: web-server, user: "{{ansible_ssh_user}}" }
-    - { role: db-server, user: "{{ansible_ssh_user}}" }
-#    - db-server
+    - { role: web-server, user: "{{ansible_ssh_user}}", domain_name: localhost }
+    - db-server
 #    - search-server

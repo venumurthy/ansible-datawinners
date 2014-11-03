@@ -1,0 +1,58 @@
+---
+
+
+- name: Install nginx package dependencies
+  apt: name={{item}} state=present
+  with_items:
+    - build-essential
+    - libpcre3-dev
+    - zlib1g-dev
+
+- name: Create nginx group
+  group: name=nginx state=present
+
+- name: Create nginx user
+  user: name=nginx createhome=no system=yes group=nginx state=present
+
+
+- name: Download nginx
+  get_url: url=http://nginx.org/download/nginx-1.2.9.tar.gz dest=/var/tmp
+
+- name: Unarchive nginx
+- unarchive: src=/var/tmp/memcached-1.4.17.tar.gz dest=/var/tmp/
+
+- name: Install nginx
+  shell: ./configure --prefix=/opt/nginx-1.2.9 --user=nginx --group=nginx --sbin-path=/usr/local/sbin --conf-path=/opt/nginx-1.2.9/conf/nginx.conf --pid-path=/opt/nginx-1.2.9/logs/nginx.pid --with-http_gzip_static_module --with-http_ssl_module && make && make install chdir=/var/tmp/nginx-1.2.9
+
+- name: Copy nginx configuration
+  template: src=opt/nginx.conf.j2 dest=/opt/nginx-1.2.9/conf/nginx.conf owner=nginx group=nginx mode=0755
+
+- name: Copy nginx init.d file
+  template: src=etc/init.d/nginx.j2 dest=/etc/init.d/nginx owner=nginx group=nginx mode=0755
+
+- name: Create nginx configuration folder
+  file: path=/opt/nginx-1.2.9/conf.d state=directory owner=nginx group=nginx mode=0755
+
+- name: Create DataWinners site configuration
+  template: src=opt/nginx/datawinner.conf.j2 dest=/opt/nginx-1.2.9/conf.d/datawinner.conf owner=nginx group=nginx mode=0755
+
+- name: Create DataWinners ssl site configuration
+  template: src=opt/nginx/datawinners.ssl.conf.j2 dest=/opt/nginx-1.2.9/conf.d/datawinners.ssl.conf owner=nginx group=nginx mode=0755
+
+
+- name: Create nginx log folder
+  file: path=/var/log/nginx state=directory owner=nginx group=nginx mode=0755
+
+
+- name: Create nginx certificates folder
+  file: path=/var/log/nginx state=directory owner=nginx group=nginx mode=0755
+
+- name: Copy nginx certificate
+  copy: src=nginx/certificates/datawinners_chained.crt dest="/home/{{user}}/certificates/datawinners_chained.crt" owner=nginx group=nginx mode=0440
+
+- name: Copy nginx server key
+  copy: src=nginx/certificates/server.key dest="/home/{{user}}/certificates/server.key" owner=nginx group=nginx mode=0440
+
+
+- name: Start nginx service
+  service: name=nginx state=started enabled=yes

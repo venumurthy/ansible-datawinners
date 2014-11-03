@@ -1,0 +1,42 @@
+server {
+	listen       80;
+    server_name  {{domain_name}};
+    #charset koi8-r;
+    access_log  /var/log/nginx/datawinners.access.log custom-log;
+
+    location /google3756418eb1f4bb6c.html{
+      root /home/{{user}}/google/;
+      index google3756418eb1f4bb6c.html;
+	}
+
+	location /xforms/submission {
+            include uwsgi_params;
+            uwsgi_pass   127.0.0.1:9001;
+            uwsgi_read_timeout 180;
+    }
+
+    location /submission {
+            include uwsgi_params;
+            uwsgi_pass   127.0.0.1:9001;
+            uwsgi_read_timeout 180;
+    }
+
+    error_page   500 504  /50x.html;
+    location = /50x.html {
+        root   html;
+    }
+    error_page 502 503 @maintenance;
+    location @maintenance {
+	    root   /home/{{user}}/workspace/datawinners/datawinners/templates;
+    	    rewrite ^(.*)$ /maintenance.html break;
+    }
+    location /{
+	rewrite ^(.*) https://$server_name$1 permanent;
+    }
+
+
+    #error_page  404              /404.html;
+
+    # redirect server error pages to the static page /50x.html
+    #
+}
