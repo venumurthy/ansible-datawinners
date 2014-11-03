@@ -4,7 +4,6 @@
   with_items:
       - postgresql-server-dev-9.1
       - postgresql-9.1-postgis
-      - libpq-dev
       - python-psycopg2
 
 - name: Allow password authentication on local socket user
