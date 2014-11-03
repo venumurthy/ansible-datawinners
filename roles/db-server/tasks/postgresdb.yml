@@ -2,32 +2,26 @@
 - name: ensure packages are installed
   action: apt name={{ item }}
   with_items:
-      - postgresql
+      - postgresql-server-dev-9.1
+      - postgresql-9.1-postgis
       - libpq-dev
       - python-psycopg2
 
-- name: Allow password authentication or local socket user
-  sudo: yes
-  copy: src=../templates/postgresdb/default/pga_hba.conf
-        dest=/etc/postgresql/9.1/main/pga_hba.conf
-        force=yes
-  notify: Restart Postgres
-
-- name: Create Database
-  sudo: yes
-  sudo_user: postgres
-  postgresql_db: name={{ postgresDB_name }}
+- name: Allow password authentication on local socket user
+  template: src=postgresdb/default/pga_hba.conf.j2 dest=/etc/postgresql/9.1/main/pga_hba.conf
 
 - name: Create User
-  sudo: yes
   sudo_user: postgres
-  postgresql_user: name={{ postgresDB_user_name }} password={{ postgresDB_password }} state=present role_attr_flags=NOSUPERUSER,CREATEDB
+  postgresql_user: name={{ postgres_user_name }} state=present role_attr_flags=SUPERUSER,CREATEDB
+
+- name: Create Database
+  sudo_user: postgres
+  postgresql_db: name=mangrove owner={{ postgres_user_name }} encoding='UTF-8'
+
 
 - name: Provide user with DB permissions
-  sudo: yes
   sudo_user: postgres
-  postgresql_user: user={{ postgresDB_user_name }} db={{ postgresDB_name }} priv=ALL
+  postgresql_user: user={{ postgres_user_name }} db=mangrove priv=ALL
 
-
-- name: Restart Postgres
-  service: name=postgresql state=restarted
+- name: Start Postgres
+  service: name=postgresql state=started
