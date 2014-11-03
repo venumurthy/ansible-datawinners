@@ -2,3 +2,8 @@
 
 couchdb_package_name: apache-couchdb_1.3.1-1_amd64.deb
 couchdb_deb_url: "https://github.com/mangroveorg/dwpkg/raw/master/couchdb/{{couchdb_package_name}}"
+
+postgresDB_name : 'mangrove'
+postgresDB_user_name: 'mangrove'
+postgresDB_password: 'd'
+

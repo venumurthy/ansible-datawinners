@@ -6,3 +6,7 @@
 - { include: couchdb_instance.yml, couchdb_instance_name: couchdbmain, database_directory: /opt/apache-couchdb/var/lib/couchdbmain, port: 5984 }
 
 - { include: couchdb_instance.yml, couchdb_instance_name: couchdbfeed, database_directory: /opt/apache-couchdb/var/lib/couchdbfeed, port: 6984 }
+
+- name: Install postgresDb
+  include: postgresdb.yml
+
