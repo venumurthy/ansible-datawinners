@@ -2,7 +2,7 @@
   group: name=elasticsearch state=present
 
 - name: Create ElasticSearch user
-  user: name=elasticsearch createhome=no home=/var/lib/elasticsearch system=yes group={{user}} shell=/bin/sh state=present
+  user: name=elasticsearch createhome=no home=/var/lib/elasticsearch system=yes group=elasticsearch shell=/bin/sh state=present
 
 - name: Check if elasticsearch package has already been downloaded
   stat: path=/opt/{{elasticsearch_package_name}}
@@ -16,10 +16,10 @@
   apt: deb=/var/tmp/{{elasticsearch_package_name}} state=installed
 
 - name: Create init.d file for elasticsearch
-  template: src=search-server/init.d/elasticsearch.j2 dest=/etc/init.d/elasticsearch owner=root group=root mode=0555
+  template: src=search-server/init.d/elasticsearch.j2 dest=/etc/init.d/elasticsearch mode=0555
 
 - name: Create settings file for elasticsearch
-  template: src=search-server/default/elasticsearch.yml.j2 dest=/etc/elasticsearch/elasticsearch.yml owner=elastisearch group=ealsticsearch mode=0744
+  template: src=search-server/default/elasticsearch.yml.j2 dest=/etc/elasticsearch/elasticsearch.yml owner=elasticsearch group=elasticsearch mode=0744
 
 - name: Start ealsticsearch service
   service: name=elasticsearch state=started
