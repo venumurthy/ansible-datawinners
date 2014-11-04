@@ -1,7 +1,13 @@
 ---
 
+
+- name: Check if libevent tar file has already been downloaded
+  stat: path=/var/tmp/libevent-2.0.21-stable.tar.gz
+  register: libevent_tar_file
+
 - name: Download libevent
   get_url: url=https://github.com/mangroveorg/dwpkg/raw/master/memcached/libevent-2.0.21-stable.tar.gz dest=/var/tmp
+  when: not libevent_tar_file.stat.exists
 
 - name: Unarchive libevent
   unarchive: src=/var/tmp/libevent-2.0.21-stable.tar.gz dest=/var/tmp/
@@ -10,8 +16,13 @@
   shell: ./configure && make && sudo make install chdir=/var/tmp/libevent-2.0.21-stable
 
 
+- name: Check if memcached tar file has already been downloaded
+  stat: path=/var/tmp/memcached-1.4.17.tar.gz
+  register: memcached_tar_file
+
 - name: Download memcached
   get_url: url=http://www.memcached.org/files/memcached-1.4.17.tar.gz dest=/var/tmp
+  when: not memcached_tar_file.stat.exists
 
 - name: Unarchive memcached
   unarchive: src=/var/tmp/memcached-1.4.17.tar.gz dest=/var/tmp/
@@ -24,8 +35,13 @@
   apt: name=libcloog-ppl0 state=present
 
 
+- name: Check if libmemcached tar file has already been downloaded
+  stat: path=/var/tmp/libmemcached-1.0.17.tar.gz
+  register: libmemcached_tar_file
+
 - name: Download libmemcached
   get_url: url=https://launchpad.net/libmemcached/1.0/1.0.17/+download/libmemcached-1.0.17.tar.gz dest=/var/tmp
+  register: libmemcached_tar_file
 
 - name: Unarchive libmemcached
   unarchive: src=/var/tmp/libmemcached-1.0.17.tar.gz dest=/var/tmp/

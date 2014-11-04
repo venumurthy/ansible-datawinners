@@ -1,7 +1,12 @@
 ---
 
+- name: Check if birt viewer tar file has already been downloaded
+  stat: path=/var/tmp/birt-viewer.gz
+  register: birt_viewer_tar_file
+
 - name: Download birt viewer
   get_url: url=http://dwapppkg.github.io/birt-viewer/birt-viewer.gz dest=/var/tmp
+  when: not birt_viewer_tar_file.stat.exists
 
 - name: Unarchive birt viewer
   unarchive: src=/var/tmp/birt-viewer.gz dest=/home/{{user}}/tomcat7/apache-tomcat-7.0.42/webapps/

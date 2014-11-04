@@ -14,8 +14,15 @@
 - name: Create nginx user
   user: name=nginx createhome=no system=yes group=nginx state=present
 
+
+
+- name: Check if nginx tar has already been downloaded
+  stat: path=/var/tmp/nginx-1.2.9.tar.gz
+  register: nginx_tar_file
+
 - name: Download nginx
   get_url: url=http://nginx.org/download/nginx-1.2.9.tar.gz dest=/var/tmp
+  when: not nginx_tar_file.stat.exists
 
 - name: Unarchive nginx
   unarchive: src=/var/tmp/nginx-1.2.9.tar.gz dest=/var/tmp owner="{{user}}" group="{{user}}"

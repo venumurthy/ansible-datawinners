@@ -3,8 +3,13 @@
 - name: Create tomcat directory
   file: path=/home/{{user}}/tomcat7 state=directory owner={{user}} group={{user}}
 
+- name: Check if tomcat tar file has already been downloaded
+  stat: path=/home/{{user}}/tomcat7/apache-tomcat-7.0.42.tar.gz
+  register: tomcat_tar_file
+
 - name: Download tomcat
   get_url: url=http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.42/bin/apache-tomcat-7.0.42.tar.gz dest=/home/{{user}}/tomcat7
+  when: not tomcat_tar_file.stat.exists
 
 - name: Set tomcat tar file owner and group
   file: path=/home/{{user}}/tomcat7/apache-tomcat-7.0.42.tar.gz owner={{user}} group={{user}}
