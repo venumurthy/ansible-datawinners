@@ -10,7 +10,7 @@
   file: path=/home/{{user}}/tomcat7/apache-tomcat-7.0.42.tar.gz owner={{user}} group={{user}}
 
 - name: Unarchive tomcat
-- unarchive: src=/home/{{user}}/tomcat7/apache-tomcat-7.0.42.tar.gz dest=/home/{{user}}/tomcat7
+  unarchive: src=/home/{{user}}/tomcat7/apache-tomcat-7.0.42.tar.gz dest=/home/{{user}}/tomcat7
 
 - name: Create init.d file for tomcat
   template: src=etc/init.d/tomcat.j2 dest=/etc/init.d/tomcat owner={{user}} group={{user}} mode=0755
