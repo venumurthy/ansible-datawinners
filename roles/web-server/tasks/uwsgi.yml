@@ -10,4 +10,4 @@
   file: path="/var/log/uwsgi" state=directory owner={{user}} group={{user}}
 
 - name: Start uwsgi service
-  service: name=uwsgi state=started enabled=yes
+  service: name=uwsgi state=restarted enabled=yes

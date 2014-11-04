@@ -19,10 +19,13 @@
   get_url: url=http://nginx.org/download/nginx-1.2.9.tar.gz dest=/var/tmp
 
 - name: Unarchive nginx
-  unarchive: src=/var/tmp/nginx-1.2.9.tar.gz dest=/var/tmp/
+  unarchive: src=/var/tmp/nginx-1.2.9.tar.gz dest=/var/tmp
 
-- name: Install nginx
-  shell: ./configure --prefix=/opt/nginx-1.2.9 --user=nginx --group=nginx --sbin-path=/usr/local/sbin --conf-path=/opt/nginx-1.2.9/conf/nginx.conf --pid-path=/opt/nginx-1.2.9/logs/nginx.pid --with-http_gzip_static_module --with-http_ssl_module && make && make install chdir=/var/tmp/nginx-1.2.9
+- name: Update temp nginx directory permission
+  file: path=/var/tmp/nginx-1.2.9 owner=root group=root recurse=yes
+
+- name: Create nginx log folder
+  file: path=/var/log/nginx state=directory owner=nginx group=nginx mode=0755
 
 - name: Copy nginx configuration
   template: src=opt/nginx.conf.j2 dest=/opt/nginx-1.2.9/conf/nginx.conf owner=nginx group=nginx mode=0755
@@ -39,11 +42,6 @@
 - name: Create DataWinners ssl site configuration
   template: src=opt/nginx/datawinners.ssl.conf.j2 dest=/opt/nginx-1.2.9/conf.d/datawinners.ssl.conf owner=nginx group=nginx mode=0755
 
-
-- name: Create nginx log folder
-  file: path=/var/log/nginx state=directory owner=nginx group=nginx mode=0755
-
-
 - name: Create nginx certificates folder
   file: path=/home/{{user}}/certificates state=directory owner=nginx group=nginx mode=0755
 
@@ -53,6 +51,8 @@
 - name: Copy nginx server key
   copy: src=nginx/certificates/server.key dest="/home/{{user}}/certificates/server.key" owner=nginx group=nginx mode=0440
 
+- name: Install nginx
+  shell: ./configure --prefix=/opt/nginx-1.2.9 --user=nginx --group=nginx --sbin-path=/usr/local/sbin --conf-path=/opt/nginx-1.2.9/conf/nginx.conf --pid-path=/opt/nginx-1.2.9/logs/nginx.pid --with-http_gzip_static_module --with-http_ssl_module && sudo make && sudo make install chdir=/var/tmp/nginx-1.2.9
 
 - name: Start nginx service
   service: name=nginx state=started enabled=yes
