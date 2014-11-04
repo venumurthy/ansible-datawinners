@@ -5,7 +5,7 @@
   user: name=elasticsearch createhome=no home=/var/lib/elasticsearch system=yes group=elasticsearch shell=/bin/sh state=present
 
 - name: Check if elasticsearch package has already been downloaded
-  stat: path=/opt/{{elasticsearch_package_name}}
+  stat: path=/var/tmp/{{elasticsearch_package_name}}
   register: elasticsearch_package
 
 - name: Download ElasticSearch package
