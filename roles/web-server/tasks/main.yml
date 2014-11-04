@@ -56,12 +56,6 @@
 - name: Set DataWinners workspace ownership
   file: path="/home/{{user}}/workspace" state=directory owner={{user}} group={{user}} recurse=yes
 
-- name: Install DataWinners pip requirements
-  pip: requirements=/home/{{user}}/workspace/datawinners/datawinners/requirements.pip virtualenv=/home/{{user}}/virtual_env/datawinners
-
-- name: Install uwsgi
-  include: uwsgi.yml
-
 - name: Install apt dependencies
   apt: name={{item}} state=latest
   with_items:
@@ -70,6 +64,12 @@
 
 - name: Install memcached
   include: memcached.yml
+
+- name: Install DataWinners pip requirements
+  pip: requirements=/home/{{user}}/workspace/datawinners/requirements.pip virtualenv=/home/{{user}}/virtual_env/datawinners extra_args='--download-cache /var/tmp/dw_pip_cache'
+
+- name: Install uwsgi
+  include: uwsgi.yml
 
 - name: Set pam.d common-session
   template: src=etc/pam.d/common-session.j2 dest=/etc/pam.d/common-session

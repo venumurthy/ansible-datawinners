@@ -35,13 +35,13 @@
 
 
 - name: Create init.d file for memcached
-  template: src=etc/init.d/memcached.j2 dest=/etc/init.d/memcached owner={{user}} group={{user}} mode=0755
+  template: src=etc/init.d/memcached.j2 dest=/etc/init.d/memcached owner="{{user}}" group="{{user}}" mode=0755
 
 - name: Create default file for start-memcached
-  template: src=memcached/start-memcached.j2 dest=/etc/default/start-memcached owner={{user}} group={{user}} mode=0755
+  template: src=memcached/start-memcached.j2 dest=/etc/default/start-memcached owner="{{user}}" group="{{user}}" mode=0755
 
 - name: Create default file for memcached
-  template: src=etc/default/memcached.j2 dest=/etc/default/memcached owner={{user}} group={{user}} mode=0755
+  template: src=etc/default/memcached.j2 dest=/etc/default/memcached owner="{{user}}" group="{{user}}" mode=0755
 
 
 - name: Start memcached service
