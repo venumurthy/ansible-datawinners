@@ -15,7 +15,7 @@
 
 - name: Create Database
   sudo_user: postgres
-  postgresql_db: name=mangrove owner={{ postgres_user_name }} encoding='UTF-8'
+  postgresql_db: name=mangrove owner={{ postgres_user_name }} encoding="UTF-8" template="template_postgis"
 
 
 - name: Provide user with DB permissions
