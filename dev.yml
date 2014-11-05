@@ -3,5 +3,5 @@
   hosts: 127.0.0.1
   roles:
     - { role: web-server, user: "{{ansible_ssh_user}}", domain_name: "localhost" }
-    - { role: db-server, postgres_user_name: "{{ansible_ssh_user}}"}
+    - { role: db-server, postgres_user_name: "{{ansible_ssh_user}}", user: "{{ansible_ssh_user}}"}
     - { role: search-server,  user: "{{ansible_ssh_user}}" }

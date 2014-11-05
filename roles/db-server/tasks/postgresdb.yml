@@ -13,10 +13,9 @@
   sudo_user: postgres
   postgresql_user: name={{ postgres_user_name }} state=present role_attr_flags=SUPERUSER,CREATEDB
 
-- name: Create Database
+- name: Create mangrove database and PostGIS template
   sudo_user: postgres
-  postgresql_db: name=mangrove owner={{ postgres_user_name }} encoding="UTF-8" template="template_postgis"
-
+  shell: "/home/{{user}}/workspace/datawinners/init_ubuntu_12.04.sh"
 
 - name: Provide user with DB permissions
   sudo_user: postgres
