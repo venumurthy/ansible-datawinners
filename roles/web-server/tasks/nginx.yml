@@ -33,6 +33,9 @@
 - name: Create nginx log folder
   file: path=/var/log/nginx state=directory owner=nginx group=nginx mode=0755
 
+- name: Create nginx conf folder
+  file: path=/opt/nginx-1.2.9/conf state=directory owner=nginx group=nginx mode=0755
+
 - name: Copy nginx configuration
   template: src=opt/nginx.conf.j2 dest=/opt/nginx-1.2.9/conf/nginx.conf owner=nginx group=nginx mode=0755
 
