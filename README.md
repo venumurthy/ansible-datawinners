@@ -3,5 +3,11 @@ ansible-datawinners
 
 Setup Datawinners using Ansible
 
+Better have a VM created with a fresh install of Ubuntu 12.04
 
-Refer https://gist.github.com/ajaydivakaran/1052080039e4eb3cf2dd for bootstrap script
+Run the following Commands on the terminal:-
+
+    sudo apt-get update && sudo apt-get -y install git-core
+    
+Clone this repo into a folder
+
