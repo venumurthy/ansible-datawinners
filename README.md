@@ -14,6 +14,5 @@ Run the following Commands on the terminal:-
     sudo apt-get update && \
     sudo apt-get -y install ansible && \
     sudo apt-get install -y oracle-java7-installer && \
-    ((cd ansible-datawinners/ && git pull ) || (git clone https://github.com/mangroveorg/ansible-datawinners.git && cd ansible-datawinners/)) && \
-    ansible-playbook dev.yml --sudo -K
+    ((cd ansible-datawinners/ && git pull) || (git clone https://github.com/mangroveorg/ansible-datawinners.git)) && cd ansible-datawinners/ && ansible-playbook dev.yml --sudo -K
 
