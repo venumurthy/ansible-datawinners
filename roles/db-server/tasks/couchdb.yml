@@ -45,5 +45,5 @@
     - /opt/apache-couchdb/var/lib
 
 - name: Set owner and group for CouchDB folders
-  file: path=/opt/apache-couchdb owner=couchdb group=couchdb state=directory
+  file: path=/opt/apache-couchdb owner=couchdb group=couchdb state=directory recurse=yes
 
