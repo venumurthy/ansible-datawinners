@@ -11,6 +11,7 @@ Setup the hostname to "dwdev"
     sudo sed -i 's/ubuntu/dwdev/g' /etc/hosts
     sudo sed -i 's/ubuntu/dwdev/g' /etc/hostname
 
+#Option 1
 Run the following Commands on the terminal if you have already downloaded the Oracle Java 7:-
 
     sudo apt-get update && \
@@ -24,8 +25,9 @@ Run the following Commands on the terminal if you have already downloaded the Or
     ((cd ansible-datawinners/ && git pull ) || (git clone https://github.com/mangroveorg/ansible-datawinners.git &&
     cd ansible-datawinners/)) && \
     ansible-playbook dev.yml --sudo -K
-    
-    
+
+#Option 2
+
 If you do not have java already downloaded then you can run the below script but you will need to be hooked onto your screen for a few minutes to accept the java install agreement. (Defaults are decline, be alert to select correctly)
     
     
@@ -41,7 +43,19 @@ If you do not have java already downloaded then you can run the below script but
     cd ansible-datawinners/ && \
     ansible-playbook dev.yml --sudo -K
 
-This can take a few hours, upon all going well, you shoudl be able to get valid reponse from curl localhost:5984
+This can take a few hours, upon all going well, you should be able to get valid reponse from curl localhost:5984
 
+Followed by 
+cd ~/workspace/datawinners/datawinners/
+cd config/  
+cp local_settings_example.py ../local_settings.py
+~/virtual_env$ source datawinners/bin/activate
+pip install -r ~/workspace/datawinners/requirements.pip
 
-
+./build.sh rsdb
+sudo service uwsgi stop
+sudo service uwsgi start
+./build.sh ccss
+./build.sh cm
+pip freeze | grep Django
+./build.sh cm
